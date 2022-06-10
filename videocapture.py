@@ -78,22 +78,12 @@ def capture_and_upload(stop):
         print('metodo videocapture')
         # loop de captura de imagenes
         while True:
-
             # la captura de imagen para usarla con la camara IP habria que cambiar el cam.read por un get que le pida
             # una captura a la camara. en este momento funciona con la camara conectada.
             # http://192.168.1.108/CGI/command/snap?channel=0
             # aqui pedimos captura a la camara por red.
-
-            # r = requests.get('http://192.168.1.108/CGI/command/snap?channel=0')
-            _, img = cam.read()
-            cv2.imwrite('unprocessed_imgs/captura_camara.jpeg', img)
-
-            # calculamos si los segundos han pasado
-
-            cv2.waitKey(1)
+            r = requests.get('http://192.168.1.108/CGI/command/snap?channel=0')
+            file = open("unprocessed_imgs/captura_camara.jpeg", "wb")
+            file.write(r.content)
+            file.close()
             upload('unprocessed_imgs/captura_camara.jpeg')
-
-            # cv2.imshow("Frame", img)
-
-
-
