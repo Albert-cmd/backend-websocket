@@ -64,8 +64,9 @@ def process_real_img():
     print('metodo process real img.')
     img = request.form['img']
     upload_real_photo.upload(img)
+    serialized_real_img = return_and_serialize.capture_and_serialize_real()
 
-    return Response(status=200)
+    return serialized_real_img
 
 
 @app.route('/run')
