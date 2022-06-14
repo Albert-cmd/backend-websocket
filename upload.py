@@ -10,7 +10,8 @@ import cv2, sys
 savePath = "processed_imgs"
 # la url hay que cambiarla por el servidor local aqui: LA URL DE MOMENTO CAMBIA CADA VEZ QUE SE ARRANCA LA INSTANCIA
 # Y HAY DOS DISTINTAS UNA PARA AVIONES REALES Y OTRA PARA AVIONES LEGO. !!!!!!!!!
-url = 'http://ec2-18-207-216-28.compute-1.amazonaws.com:5000/segmentation'
+# ec2-3-95-157-129.compute-1.amazonaws.com
+url = 'http://ec2-3-95-157-129.compute-1.amazonaws.com:5000/segmentation'
 
 
 def upload(image_file):
@@ -30,11 +31,11 @@ def upload(image_file):
             backtorgb = cv2.cvtColor(open_cv_image, cv2.COLOR_GRAY2RGB)
             cv2.imwrite(image_file, backtorgb)
         prep = time.time()
-
+        print(image_file)
         # Make API request
         my_img = {'image': open(image_file, 'rb')}
         data = {'filename': image_file, "savepath": "{}/{}.jpeg".format(savePath, basename)}
-
+        print(my_img,data)
         r = requests.post(url, files=my_img, data=data)
         req_made = time.time()
         # Recive request answer
