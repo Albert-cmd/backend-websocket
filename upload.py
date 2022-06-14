@@ -6,10 +6,10 @@ import os, time, json, requests, io, base64, ntpath
 from PIL import Image
 import numpy as np
 import cv2, sys
-
 # metodo upload para procesar la imagen:
 savePath = "processed_imgs"
-# la url hay que cambiarla por el servidor local aqui:
+# la url hay que cambiarla por el servidor local aqui: LA URL DE MOMENTO CAMBIA CADA VEZ QUE SE ARRANCA LA INSTANCIA
+# Y HAY DOS DISTINTAS UNA PARA AVIONES REALES Y OTRA PARA AVIONES LEGO. !!!!!!!!!
 url = 'http://ec2-18-207-216-28.compute-1.amazonaws.com:5000/segmentation'
 
 
@@ -66,6 +66,3 @@ def upload(image_file):
     except Exception as e:
 
         return False
-
-
-upload('unprocessed_imgs/IMG20220516091651.jpg')

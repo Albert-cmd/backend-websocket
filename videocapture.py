@@ -1,4 +1,4 @@
-def capture_and_upload(stop):
+def capture_and_upload():
     from time import time
     import cv2
     import os, glob, time
@@ -14,7 +14,7 @@ def capture_and_upload(stop):
     # metodo upload para procesar la imagen:
     savePath = "processed_imgs"
     # la url hay que cambiarla por el servidor local aqui:
-    url = 'http://192.168.1.89:5000/segmentation'
+    url = ''
 
     def upload(image_file):
         try:
@@ -69,21 +69,3 @@ def capture_and_upload(stop):
         except Exception as e:
 
             return False
-
-    # habria que empezar a procesar las imagenes una vez ha finalizado de procesar
-
-    if not stop:
-        # objeto videocapture
-        cam = cv2.VideoCapture(0)
-        print('metodo videocapture')
-        # loop de captura de imagenes
-        while True:
-            # la captura de imagen para usarla con la camara IP habria que cambiar el cam.read por un get que le pida
-            # una captura a la camara. en este momento funciona con la camara conectada.
-            # http://192.168.1.108/CGI/command/snap?channel=0
-            # aqui pedimos captura a la camara por red.
-            r = requests.get('http://192.168.1.108/CGI/command/snap?channel=0')
-            file = open("unprocessed_imgs/captura_camara.jpeg", "wb")
-            file.write(r.content)
-            file.close()
-            upload('unprocessed_imgs/captura_camara.jpeg')

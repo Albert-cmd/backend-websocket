@@ -1,6 +1,7 @@
 from flask import Flask, request, Response
 from flask_socketio import SocketIO, emit
-
+import time
+import img_capture
 import return_and_serialize
 import upload_real_photo
 import videocapture
@@ -32,22 +33,29 @@ def handle_message(data):
     print('received message: ' + str(data))
 
 
+@socketio.on('openConnection')
+def open_connection():
+
+    print('transferencia iniciada')
+    img_capture.captura_imagen()
+    time.sleep(2)
+    videocapture.capture_and_upload()
+    base64_img = return_and_serialize.capture_and_serialize()
+    print(base64_img)
+    socketio.emit('liveResponse', base64_img)
+
+
+@socketio.on('closeConnection')
+def close_connection():
+    print('connection closed.')
+
+
 # ---------------------- METODOS DE WS REST ----------------
 @app.route('/get_real_img')
 def get_real_img():
     serialized_real_img = return_and_serialize.capture_and_serialize_real()
 
     return serialized_real_img
-
-
-@app.route('/get_img')
-# serializamos y devolvemos la ultima imagen procesada del directorio de imagenes processed_imgs.
-def return_processed_image():
-    # esto hay que mandarlo a ejecutarse en otro thread.
-    serialized_img = return_and_serialize.capture_and_serialize()
-    # thread = multiprocessing.Process(target=return_and_serialize.capture_and_serialize(), name='serialize')
-    # thread.start()
-    return serialized_img
 
 
 @app.route('/process_real_img', methods=['POST'])
@@ -60,13 +68,6 @@ def process_real_img():
     return Response(status=200)
 
 
-@app.route('/get_real_img')
-def return_real_img():
-    serialized_real_img = return_and_serialize.capture_and_serialize_real()
-
-    return serialized_real_img
-
-
 @app.route('/run')
 def run_listen_and_upload():  # pone en marcha el reconocimiento de imagenes.
 
@@ -74,8 +75,16 @@ def run_listen_and_upload():  # pone en marcha el reconocimiento de imagenes.
     stop = request.args.get('stop', default=False, type=bool)
     videocapture.capture_and_upload(stop)
     # hay que ejecutar el proceso en segundo plano en otro thread.
-    videocapture.capture_and_upload(stop)
     return Response(status=200)
+
+
+@app.route('/get_img')
+# serializamos y devolvemos la ultima imagen procesada del directorio de imagenes processed_imgs.
+def return_processed_image():
+    # esto hay que mandarlo a ejecutarse en otro thread.
+    serialized_img = return_and_serialize.capture_and_serialize()
+
+    return serialized_img
 
 
 if __name__ == '__main__':

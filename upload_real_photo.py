@@ -14,6 +14,8 @@ import cv2, sys
 # metodo upload para procesar la imagen, en este directorio se guardan las de aviones reales.
 savePath = "processed_plane_imgs"
 # la url hay que cambiarla por el modelo que procesa las imagenes de avion reales.
+# la url hay que cambiarla por el servidor local aqui: LA URL DE MOMENTO CAMBIA CADA VEZ QUE SE ARRANCA LA INSTANCIA
+# Y HAY DOS DISTINTAS UNA PARA AVIONES REALES Y OTRA PARA AVIONES LEGO. !!!!!!!!!
 url = 'http://ec2-54-86-95-60.compute-1.amazonaws.com:5000/segmentation'
 
 
