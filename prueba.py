@@ -20,8 +20,8 @@ savePath = "processed_plane_imgs"
 # Y HAY DOS DISTINTAS UNA PARA AVIONES REALES Y OTRA PARA AVIONES LEGO. !!!!!!!!!
 
 # esto url es para los aviones reales.
-url = 'http://ec2-54-159-163-108.compute-1.amazonaws.com:5000/segmentation'
-'http://ec2-100-26-194-97.compute-1.amazonaws.com:5000/segmentation'
+url = 'http://ec2-3-90-92-67.compute-1.amazonaws.com:5000/segmentation'
+
 
 
 def upload(image_file):

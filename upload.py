@@ -13,7 +13,7 @@ savePath = "processed_imgs"
 # ec2-3-95-157-129.compute-1.amazonaws.com
 
 # esta url tiene que ser para los aviones de lego:::
-url = 'http://ec2-54-89-240-203.compute-1.amazonaws.com:5000/segmentation'
+url = 'http://ec2-35-168-65-141.compute-1.amazonaws.com:5000/segmentation'
 
 
 def upload(image_file):
