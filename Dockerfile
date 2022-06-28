@@ -1,16 +1,9 @@
-FROM continuumio/miniconda:latest
-
-WORKDIR ./
-
+FROM python:3.9
+RUN apt-get update
+RUN apt install -y libgl1-mesa-glx
+COPY requirements.txt ./requirements.txt
 COPY ./ ./
-
-RUN chmod +x boot.sh
-
-RUN Conda env create -f environment.yml
-
-RUN echo "source activate backend-websocket" &gt; ~/.bashrc
-ENV PATH /opt/conda/envs/backend-websocket/bin:$PATH
-
-EXPOSE 5000
-
-ENTRYPOINT ["./boot.sh"]
+RUN pip install opencv-contrib-python-headless
+RUN pip install numpy
+RUN pip install -r requirements.txt
+CMD ["python", "./app.py"]
