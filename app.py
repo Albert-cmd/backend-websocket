@@ -26,14 +26,16 @@ def hello_world():  # put application's code here
 
 @socketio.on('connect')
 def test_connect():
-    run_ec2_instances.run_instances()
     print('cliente conectado.')
+    run_ec2_instances.run_instances()
+    print('instancias encendidas.')
 
 
 @socketio.on('disconnect')
 def test_connect():
-    stop_ec2_instances.stop_instances()
     print('cliente desconectado.')
+    stop_ec2_instances.stop_instances()
+    print('instancias detenidas.')
 
 
 @socketio.on('message')
