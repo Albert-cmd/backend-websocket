@@ -7,6 +7,8 @@ import img_capture
 import return_and_serialize
 import upload_real_photo
 import videocapture
+import run_ec2_instances
+import stop_ec2_instances
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -24,11 +26,13 @@ def hello_world():  # put application's code here
 
 @socketio.on('connect')
 def test_connect():
+    run_ec2_instances.run_instances()
     print('cliente conectado.')
 
 
 @socketio.on('disconnect')
 def test_connect():
+    stop_ec2_instances.stop_instances()
     print('cliente desconectado.')
 
 
@@ -96,6 +100,12 @@ def return_processed_image():
     serialized_img = return_and_serialize.capture_and_serialize()
 
     return serialized_img
+
+
+@app.before_request
+def run_before_request():
+
+    return "backend_websocket_before_request"
 
 
 if __name__ == '__main__':
