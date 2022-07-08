@@ -27,14 +27,29 @@ def hello_world():  # put application's code here
 @socketio.on('connect')
 def test_connect():
     print('cliente conectado.')
-    run_ec2_instances.run_instances()
-    print('instancias encendidas.')
 
 
 @socketio.on('disconnect')
 def test_connect():
+    # esto hay que esperar 5 segundos
     print('cliente desconectado.')
-    stop_ec2_instances.stop_instances()
+
+
+@socketio.on('run_aws')
+def run_aws_ec2():
+    print('run aws ec2')
+    result = run_ec2_instances.run_instances()
+    if result:
+        socketio.emit('ec2_ready')
+    print('instancias encendidas.')
+
+
+@socketio.on('stop_aws')
+def stop_aws_ec2():
+    print('stop_aws')
+    result = stop_ec2_instances.stop_instances()
+    if result:
+        socketio.emit('ec2_stopped')
     print('instancias detenidas.')
 
 
@@ -106,7 +121,6 @@ def return_processed_image():
 
 @app.before_request
 def run_before_request():
-
     return "backend_websocket_before_request"
 
 
